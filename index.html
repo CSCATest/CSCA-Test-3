@@ -1,0 +1,989 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CSCA Mathematics Mock Exam</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  /* ============ DESIGN TOKENS ============ */
+  :root{
+    --ink:#10182B;
+    --ink-soft:#5A6180;
+    --canvas:#EEF1F8;
+    --card:#FFFFFF;
+    --line:#E1E5F0;
+    --primary:#2F4CDD;
+    --primary-dark:#1B2E99;
+    --primary-tint:#E8ECFE;
+    --mint:#1FAA6A;
+    --mint-tint:#E3F7EC;
+    --amber:#F2A93B;
+    --amber-tint:#FDF1DD;
+    --crimson:#E4483C;
+    --crimson-tint:#FCE7E5;
+    --radius-lg:20px;
+    --radius-md:14px;
+    --radius-sm:10px;
+    --shadow-card:0 10px 30px rgba(16,24,43,0.08);
+    --shadow-soft:0 4px 14px rgba(16,24,43,0.06);
+    --font-display:'Sora','Inter',system-ui,sans-serif;
+    --font-body:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    --font-mono:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  }
+
+  *{box-sizing:border-box;}
+  html,body{height:100%;}
+  body{
+    margin:0;
+    background:var(--canvas);
+    color:var(--ink);
+    font-family:var(--font-body);
+    -webkit-font-smoothing:antialiased;
+  }
+  button, input{font-family:inherit;}
+  button{appearance:none;border:none;cursor:pointer;background:none;color:inherit;}
+
+  .screen{display:none;min-height:100vh;}
+  .screen.is-active{display:flex;flex-direction:column;}
+
+  @keyframes fadeInUp{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
+  @keyframes shake{
+    10%,90%{transform:translateX(-1px);}
+    20%,80%{transform:translateX(2px);}
+    30%,50%,70%{transform:translateX(-4px);}
+    40%,60%{transform:translateX(4px);}
+  }
+  @keyframes pulseBar{0%,100%{opacity:1;}50%{opacity:.55;}}
+  @media (prefers-reduced-motion: reduce){
+    .entry-card, .outro-card{animation:none !important;}
+    .timer-track.critical .timer-fill{animation:none !important;}
+  }
+
+  /* ============ ENTRY SCREEN ============ */
+  #screen-entry.is-active{
+    align-items:center;
+    justify-content:center;
+    padding:32px 16px;
+    background:
+      radial-gradient(circle at 15% 20%, rgba(47,76,221,0.10), transparent 45%),
+      radial-gradient(circle at 85% 80%, rgba(31,170,106,0.10), transparent 45%),
+      var(--canvas);
+  }
+  .entry-card{
+    width:100%;
+    max-width:440px;
+    background:var(--card);
+    border-radius:var(--radius-lg);
+    box-shadow:var(--shadow-card);
+    padding:40px 36px 32px;
+    border:1px solid var(--line);
+    animation:fadeInUp .5s ease both;
+  }
+  .entry-mark{
+    width:46px;height:46px;border-radius:12px;
+    background:var(--primary);
+    color:#fff;
+    display:flex;align-items:center;justify-content:center;
+    font-family:var(--font-mono);font-weight:700;font-size:13px;
+    margin-bottom:22px;
+  }
+  .entry-card h1{
+    font-family:var(--font-display);
+    font-size:25px;
+    font-weight:700;
+    line-height:1.25;
+    margin:0 0 8px;
+  }
+  .entry-sub{
+    color:var(--ink-soft);
+    font-size:14.5px;
+    line-height:1.5;
+    margin:0 0 28px;
+  }
+  .field{margin-bottom:18px;}
+  .field label{
+    display:block;
+    font-size:12px;
+    font-weight:600;
+    letter-spacing:.03em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+    margin-bottom:6px;
+  }
+  .field label .optional{text-transform:none;font-weight:400;letter-spacing:0;}
+  .field input{
+    width:100%;
+    padding:12px 14px;
+    border-radius:var(--radius-sm);
+    border:1.5px solid var(--line);
+    font-size:15px;
+    color:var(--ink);
+    background:#fbfcff;
+    transition:border-color .15s, box-shadow .15s;
+  }
+  .field input::placeholder{color:#9AA3BE;}
+  .field input:focus-visible{
+    outline:none;
+    border-color:var(--primary);
+    box-shadow:0 0 0 4px var(--primary-tint);
+  }
+  .field input.shake{animation:shake .4s ease;border-color:var(--crimson);}
+
+  .btn{
+    font-weight:600;
+    font-size:15px;
+    border-radius:var(--radius-sm);
+    padding:13px 20px;
+    transition:transform .12s ease, box-shadow .12s ease, background .15s, border-color .15s, color .15s;
+    display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  }
+  .btn:active{transform:translateY(1px);}
+  .btn:focus-visible{outline:3px solid var(--primary-tint);outline-offset:2px;}
+  .btn:disabled{opacity:.45;cursor:not-allowed;}
+  .btn-block{width:100%;}
+  .btn-primary{background:var(--primary);color:#fff;box-shadow:0 8px 20px rgba(47,76,221,.28);}
+  .btn-primary:hover:not(:disabled){background:var(--primary-dark);}
+  .btn-ghost{background:transparent;color:var(--ink-soft);border:1.5px solid var(--line);}
+  .btn-ghost:hover:not(:disabled){border-color:var(--ink-soft);color:var(--ink);}
+  .btn-dark{background:var(--ink);color:#fff;}
+  .btn-dark:hover:not(:disabled){background:#000;}
+
+  .entry-meta{
+    margin-top:22px;
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+  }
+  .entry-meta span{
+    font-family:var(--font-mono);
+    font-size:12px;
+    background:var(--canvas);
+    border:1px solid var(--line);
+    border-radius:999px;
+    padding:6px 12px;
+    color:var(--ink-soft);
+  }
+
+  /* ============ EXAM SCREEN ============ */
+  .timer-track{height:6px;width:100%;background:var(--line);flex-shrink:0;}
+  .timer-fill{
+    height:100%;width:100%;
+    background:linear-gradient(90deg,#22c17e,var(--mint));
+    transition:width 1s linear, background .4s ease;
+  }
+  .timer-track.critical .timer-fill{
+    background:linear-gradient(90deg,#ff6a5f,var(--crimson));
+    animation:pulseBar 1s ease-in-out infinite;
+  }
+
+  .exam-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:14px 28px;
+    background:var(--primary);
+    color:#fff;
+    flex-shrink:0;
+  }
+  .exam-title{
+    font-family:var(--font-display);
+    font-weight:700;
+    font-size:14.5px;
+    letter-spacing:.03em;
+    text-transform:uppercase;
+  }
+  .exam-title small{
+    display:block;
+    font-family:var(--font-body);
+    font-weight:400;
+    text-transform:none;
+    letter-spacing:0;
+    opacity:.82;
+    font-size:12px;
+    margin-top:2px;
+  }
+  .timer-display{
+    font-family:var(--font-mono);
+    font-weight:700;
+    font-size:19px;
+    background:rgba(255,255,255,.16);
+    padding:7px 18px;
+    border-radius:999px;
+    letter-spacing:.03em;
+    transition:background .2s ease;
+  }
+  .timer-display.critical{background:rgba(228,72,60,.95);}
+
+  .exam-body{
+    flex:1;
+    display:flex;
+    gap:24px;
+    padding:24px 28px 40px;
+    align-items:flex-start;
+    max-width:1180px;
+    width:100%;
+    margin:0 auto;
+  }
+
+  .sidebar{
+    width:270px;
+    flex-shrink:0;
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+    position:sticky;
+    top:24px;
+  }
+  .student-card{
+    display:flex;align-items:center;gap:12px;
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:var(--radius-md);
+    padding:14px;
+    box-shadow:var(--shadow-soft);
+  }
+  .avatar{
+    width:40px;height:40px;border-radius:50%;flex-shrink:0;
+    background:var(--primary-tint);color:var(--primary);
+    display:flex;align-items:center;justify-content:center;
+    font-weight:700;font-family:var(--font-display);
+  }
+  .student-name{font-weight:700;font-size:14.5px;line-height:1.3;}
+  .student-sub{font-size:12px;color:var(--ink-soft);margin-top:2px;}
+
+  .legend{display:flex;gap:12px;flex-wrap:wrap;font-size:11.5px;color:var(--ink-soft);padding:0 2px;}
+  .legend span{display:flex;align-items:center;gap:5px;}
+  .dot{width:8px;height:8px;border-radius:50%;display:inline-block;flex-shrink:0;}
+  .dot.unanswered{background:#C7CCDE;}
+  .dot.answered{background:var(--mint);}
+  .dot.marked{background:var(--amber);}
+
+  .grid-card{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:var(--radius-md);
+    padding:16px;
+    box-shadow:var(--shadow-soft);
+  }
+  .grid-card-header{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:12px;}
+  .grid-card-header .label{font-weight:700;font-size:13.5px;}
+  .grid-card-header .count{font-family:var(--font-mono);font-size:12px;color:var(--ink-soft);}
+
+  .q-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;}
+  .q-cell{
+    aspect-ratio:1/1;
+    border-radius:9px;
+    border:1.5px solid var(--line);
+    background:#fbfcff;
+    color:var(--ink-soft);
+    font-family:var(--font-mono);
+    font-weight:600;
+    font-size:13px;
+    cursor:pointer;
+    display:flex;align-items:center;justify-content:center;
+    transition:all .15s ease;
+    position:relative;
+  }
+  .q-cell:hover{border-color:var(--primary);color:var(--primary);}
+  .q-cell.answered{background:var(--mint);border-color:var(--mint);color:#fff;}
+  .q-cell.marked::after{
+    content:'';position:absolute;top:-3px;right:-3px;
+    width:8px;height:8px;border-radius:50%;
+    background:var(--amber);border:2px solid var(--card);
+  }
+  .q-cell.current{
+    box-shadow:0 0 0 3px var(--primary-tint);
+    border-color:var(--primary);
+  }
+
+  /* ---- question panel ---- */
+  .question-panel{flex:1;min-width:0;display:flex;flex-direction:column;gap:14px;}
+  .question-nav{display:flex;align-items:center;justify-content:space-between;gap:10px;}
+  .question-counter{
+    font-family:var(--font-mono);font-weight:600;font-size:13px;
+    color:var(--ink-soft);background:var(--card);
+    border:1px solid var(--line);padding:8px 16px;border-radius:999px;
+  }
+  .nav-btn{background:var(--card);border:1.5px solid var(--line);color:var(--ink);padding:9px 18px;}
+  .nav-btn:hover:not(:disabled){border-color:var(--primary);color:var(--primary);}
+
+  .question-card{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:var(--radius-lg);
+    padding:32px;
+    box-shadow:var(--shadow-card);
+  }
+  .question-tier{
+    display:inline-block;
+    font-family:var(--font-mono);
+    font-size:10.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;
+    color:var(--primary);background:var(--primary-tint);
+    padding:4px 10px;border-radius:999px;margin-bottom:14px;
+  }
+  .question-text{
+    font-family:var(--font-display);
+    font-size:18.5px;font-weight:600;line-height:1.55;
+    margin-bottom:26px;white-space:pre-line;
+  }
+  .choices{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  @media (max-width:600px){.choices{grid-template-columns:1fr;}}
+
+  .choice{
+    display:flex;align-items:center;gap:12px;text-align:left;
+    background:#fbfcff;border:1.5px solid var(--line);
+    border-radius:var(--radius-md);padding:14px 16px;
+    font-size:14.5px;color:var(--ink);
+    transition:all .15s ease;
+  }
+  .choice:hover{border-color:var(--primary);background:var(--primary-tint);}
+  .choice:focus-visible{outline:3px solid var(--primary-tint);outline-offset:2px;}
+  .choice-letter{
+    width:26px;height:26px;flex-shrink:0;border-radius:50%;
+    border:1.5px solid var(--line);
+    display:flex;align-items:center;justify-content:center;
+    font-family:var(--font-mono);font-weight:700;font-size:12px;
+    color:var(--ink-soft);transition:all .15s ease;
+  }
+  .choice.selected{border-color:var(--primary);background:var(--primary-tint);box-shadow:0 0 0 3px var(--primary-tint);}
+  .choice.selected .choice-letter{background:var(--primary);border-color:var(--primary);color:#fff;}
+
+  .flag-btn{
+    align-self:flex-start;
+    background:var(--amber-tint);color:#96660C;
+    border:1px solid #F2D9A6;padding:9px 16px;font-size:13px;font-weight:600;border-radius:var(--radius-sm);
+  }
+  .flag-btn.is-active{background:var(--amber);color:#fff;border-color:var(--amber);}
+
+  /* ---- modal ---- */
+  .modal-overlay{
+    position:fixed;inset:0;
+    background:rgba(16,24,43,.45);
+    display:flex;align-items:center;justify-content:center;
+    padding:20px;z-index:50;backdrop-filter:blur(2px);
+  }
+  .modal-overlay.hidden{display:none;}
+  .modal{
+    background:#fff;border-radius:var(--radius-lg);
+    padding:28px;max-width:400px;width:100%;
+    box-shadow:0 30px 60px rgba(16,24,43,.3);
+  }
+  .modal h3{font-family:var(--font-display);margin:0 0 10px;font-size:19px;}
+  .modal p{color:var(--ink-soft);font-size:14.5px;line-height:1.5;margin:0 0 22px;}
+  .modal-actions{display:flex;gap:10px;justify-content:flex-end;}
+
+  /* ============ OUTRO SCREEN ============ */
+  #screen-outro.is-active{align-items:center;padding:48px 16px 60px;background:var(--canvas);}
+  .outro-wrap{width:100%;max-width:640px;display:flex;flex-direction:column;gap:20px;}
+  .outro-card{
+    background:var(--card);border:1px solid var(--line);
+    border-radius:var(--radius-lg);box-shadow:var(--shadow-card);
+    padding:40px 36px;text-align:center;
+    animation:fadeInUp .5s ease both;
+  }
+  .outro-badge{
+    display:inline-block;font-family:var(--font-mono);
+    font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+    color:var(--mint);background:var(--mint-tint);
+    padding:5px 12px;border-radius:999px;margin-bottom:18px;
+  }
+  .outro-card h1{font-family:var(--font-display);font-size:23px;margin:0 0 28px;}
+
+  .score-ring{
+    --pct:0;
+    width:180px;height:180px;margin:0 auto 26px;border-radius:50%;
+    background:conic-gradient(var(--primary) calc(var(--pct)*1%), var(--line) 0);
+    display:flex;align-items:center;justify-content:center;position:relative;
+    transition:background 1s ease;
+  }
+  .score-ring::before{content:'';position:absolute;inset:12px;border-radius:50%;background:#fff;}
+  .score-inner{position:relative;font-family:var(--font-mono);display:flex;align-items:baseline;gap:2px;}
+  .score-value{font-size:44px;font-weight:700;color:var(--ink);}
+  .score-max{font-size:16px;color:var(--ink-soft);}
+
+  .outro-stats{display:flex;justify-content:center;gap:30px;margin-bottom:28px;flex-wrap:wrap;}
+  .outro-stats > div{text-align:center;}
+  .outro-stats span{display:block;font-family:var(--font-mono);font-size:21px;font-weight:700;}
+  .outro-stats label{font-size:11.5px;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.03em;}
+  .outro-stats .correct span{color:var(--mint);}
+  .outro-stats .incorrect span{color:var(--crimson);}
+  .outro-stats .unanswered span{color:var(--amber);}
+
+  .outro-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
+
+  .review-panel{display:none;flex-direction:column;gap:10px;}
+  .review-panel.open{display:flex;}
+  .review-row{
+    display:flex;gap:14px;
+    background:var(--card);border:1px solid var(--line);border-left:4px solid var(--line);
+    border-radius:var(--radius-md);padding:16px 18px;text-align:left;
+  }
+  .review-row.review-correct{border-left-color:var(--mint);}
+  .review-row.review-incorrect{border-left-color:var(--crimson);}
+  .review-row.review-unanswered{border-left-color:var(--amber);}
+  .review-num{font-family:var(--font-mono);font-weight:700;color:var(--ink-soft);flex-shrink:0;width:22px;}
+  .review-body{flex:1;min-width:0;}
+  .review-q{font-size:14px;font-weight:600;margin-bottom:8px;white-space:pre-line;}
+  .review-answers{display:flex;flex-direction:column;gap:3px;font-size:12.5px;color:var(--ink-soft);}
+  .review-row.review-correct .review-answers span:first-child{color:var(--mint);font-weight:600;}
+  .review-row.review-incorrect .review-answers span:first-child{color:var(--crimson);font-weight:600;}
+
+  /* ============ RESPONSIVE ============ */
+  @media (max-width:900px){
+    .exam-body{flex-direction:column;padding:18px;}
+    .sidebar{width:100%;position:static;}
+    .q-grid{grid-template-columns:repeat(10,1fr);}
+  }
+  @media (max-width:520px){
+    .q-grid{grid-template-columns:repeat(5,1fr);}
+    .question-card{padding:22px;}
+    .exam-header{padding:12px 16px;}
+    .exam-title{font-size:12.5px;}
+    .timer-display{font-size:16px;padding:6px 14px;}
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ 1. ENTRY SCREEN ============ -->
+<section id="screen-entry" class="screen is-active">
+  <div class="entry-card">
+    <div class="entry-mark">CSCA</div>
+    <h1>Mathematics Mock Exam</h1>
+    <p class="entry-sub">Sequences &amp; Series &mdash; 25 questions. Enter your details to begin.</p>
+
+    <div class="field">
+      <label for="input-name">Full name</label>
+      <input id="input-name" type="text" placeholder="e.g. Wang Wei" autocomplete="name">
+    </div>
+    <div class="field">
+      <label for="input-ticket">Admission ticket no. <span class="optional">(optional)</span></label>
+      <input id="input-ticket" type="text" placeholder="e.g. 20260001">
+    </div>
+
+    <button id="btn-start" class="btn btn-primary btn-block">Start exam</button>
+
+    <div class="entry-meta">
+      <span>&#9201; 45:00</span>
+      <span>25 questions</span>
+      <span>100 marks</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 2. EXAM SCREEN ============ -->
+<section id="screen-exam" class="screen">
+  <div class="timer-track" id="timer-track"><div class="timer-fill" id="timer-fill"></div></div>
+
+  <header class="exam-header">
+    <div class="exam-title">CSCA Mathematics Mock Exam<small>Sequences &amp; Series</small></div>
+    <div class="timer-display" id="timer-display">45:00</div>
+  </header>
+
+  <div class="exam-body">
+    <aside class="sidebar">
+      <div class="student-card">
+        <div class="avatar" id="avatar-initial">?</div>
+        <div>
+          <div class="student-name" id="sidebar-name">&mdash;</div>
+          <div class="student-sub">Ticket: <span id="sidebar-ticket">&mdash;</span></div>
+        </div>
+      </div>
+
+      <div class="legend">
+        <span><i class="dot unanswered"></i>Unanswered</span>
+        <span><i class="dot answered"></i>Answered</span>
+        <span><i class="dot marked"></i>Flagged</span>
+      </div>
+
+      <div class="grid-card">
+        <div class="grid-card-header">
+          <span class="label">Questions</span>
+          <span class="count" id="progress-count">0 / 25</span>
+        </div>
+        <div class="q-grid" id="q-grid"></div>
+      </div>
+
+      <button id="btn-submit" class="btn btn-dark btn-block">Submit exam</button>
+    </aside>
+
+    <main class="question-panel">
+      <div class="question-nav">
+        <button id="btn-prev" class="btn nav-btn">&lsaquo; Prev</button>
+        <div class="question-counter" id="question-counter">Question 1 of 25</div>
+        <button id="btn-next" class="btn nav-btn">Next &rsaquo;</button>
+      </div>
+
+      <div class="question-card">
+        <span class="question-tier" id="question-tier">Level 1</span>
+        <div class="question-text" id="question-text"></div>
+        <div class="choices" id="choices"></div>
+      </div>
+
+      <button id="btn-flag" class="btn flag-btn">&#9734; Flag this question for review</button>
+    </main>
+  </div>
+</section>
+
+<!-- ============ 3. OUTRO SCREEN ============ -->
+<section id="screen-outro" class="screen">
+  <div class="outro-wrap">
+    <div class="outro-card">
+      <span class="outro-badge">Exam submitted</span>
+      <h1 id="outro-heading">Nice work.</h1>
+
+      <div class="score-ring" id="score-ring">
+        <div class="score-inner">
+          <span class="score-value" id="score-value">0</span>
+          <span class="score-max">/100</span>
+        </div>
+      </div>
+
+      <div class="outro-stats">
+        <div class="correct"><span id="stat-correct">0</span><label>Correct</label></div>
+        <div class="incorrect"><span id="stat-incorrect">0</span><label>Incorrect</label></div>
+        <div class="unanswered"><span id="stat-unanswered">0</span><label>Unanswered</label></div>
+      </div>
+
+      <div class="outro-actions">
+        <button id="btn-review" class="btn btn-ghost">Review answers</button>
+        <button id="btn-restart" class="btn btn-primary">Restart exam</button>
+      </div>
+    </div>
+
+    <div class="review-panel" id="review-panel"></div>
+  </div>
+</section>
+
+<!-- ============ MODAL ============ -->
+<div class="modal-overlay hidden" id="modal-overlay">
+  <div class="modal">
+    <h3 id="modal-title">Submit exam?</h3>
+    <p id="modal-message"></p>
+    <div class="modal-actions">
+      <button id="modal-cancel" class="btn btn-ghost">Cancel</button>
+      <button id="modal-confirm" class="btn btn-primary">Submit</button>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+  /* =========================================================
+     QUESTION BANK — 25 items, ordered Easy -> Hard.
+     Each item's `correct` index (0-based) is the answer used
+     for grading. Geometric-sequence questions were excluded
+     from this set per the earlier extraction pass.
+     ========================================================= */
+  var QUESTIONS = [
+    // ─── GEOMETRIC SEQUENCES & SERIES ───────────────────────────────────────────
+// Format mirrors Arithmetic.txt
+// correct: index (0-based) of the correct choice
+
+// ── Level 1 · Warm-up ────────────────────────────────────────────────────────
+
+// ─── GEOMETRIC SEQUENCES & SERIES ───────────────────────────────────────────
+// Format mirrors Arithmetic.txt
+// correct: index (0-based) of the correct choice
+
+// ── Level 1 · Warm-up ────────────────────────────────────────────────────────
+
+// ─── GEOMETRIC SEQUENCES & SERIES ───────────────────────────────────────────
+// Format mirrors Arithmetic.txt
+// correct: index (0-based) of the correct choice
+
+// ── Level 1 · Warm-up ────────────────────────────────────────────────────────
+
+{ tier:'Level 1 · Warm-up', text:'What is the next term in the geometric sequence 3, 6, 12, 24, ...?',
+  choices:['36','48','42','54'], correct:1 },
+
+{ tier:'Level 1 · Warm-up', text:'What is the common ratio q of the geometric sequence 5, 10, 20, 40, ...?',
+  choices:['2','4','5','3'], correct:0 },
+
+{ tier:'Level 1 · Warm-up', text:'Let {aₙ} be a geometric sequence with a₁ = 3 and common ratio q = 2. Then a₅ = ?',
+  choices:['24','48','12','96'], correct:1 },
+
+{ tier:'Level 1 · Warm-up', text:'If a geometric sequence has a₁ = 1 and q = −2, then a₄ = ?',
+  choices:['8','−8','16','−16'], correct:1 },
+
+{ tier:'Level 1 · Warm-up', text:'If a₁ = 4 and a₄ = 32 in a geometric sequence {aₙ}, then a₃ = ?',
+  choices:['8','−8','16','−16'], correct:2 },
+
+{ tier:'Level 1 · Warm-up', text:'If the sequence {aₙ} is a geometric sequence, and a₁ = −48, a₄ = 6, then the common ratio q = ?',
+  choices:['−1/2','−2','1/2','2'], correct:0 },
+
+{ tier:'Level 1 · Warm-up', text:'In the geometric sequence 1, 2, 4, 8, …, the general term aₙ = ?',
+  choices:['2ⁿ','8','2ⁿ⁻¹','2ⁿ⁺¹'], correct:2 },
+
+{ tier:'Level 1 · Warm-up', text:'If a₁ = 6 and q = 1/3 in a geometric sequence, then a₄ = ?',
+  choices:['2/9','2/3','2/27','9/27'], correct:0 },
+
+// ── Level 2 · Easy-Medium ────────────────────────────────────────────────────
+
+{ tier:'Level 2 · Easy-Medium', text:'The geometric mean of 3 and 12 is?',
+  choices:['±6','±4','±10','±8'], correct:0 },
+
+{ tier:'Level 2 · Easy-Medium', text:'Among the four sequences below, how many are geometric sequences?\n(1) 1, 2, 4, 8   (2) 1, 1, 1, 1   (3) 2, 4, 7, 11   (4) −1, 1, −1, 1',
+  choices:['2','3','4','1'], correct:1 },
+
+{ tier:'Level 2 · Easy-Medium', text:'If the general term of a sequence {aₙ} is aₙ = 2ⁿ, which of the following statements is correct?',
+  choices:['{aₙ} is an arithmetic sequence','{aₙ} is neither arithmetic nor geometric','{aₙ} is both arithmetic and geometric','{aₙ} is a geometric sequence'], correct:3 },
+
+{ tier:'Level 2 · Easy-Medium', text:'Given that {aₙ} is a geometric sequence with a₁ = 2 and q = 3, then a₆ = ?',
+  choices:['486','162','243','729'], correct:0 },
+
+{ tier:'Level 2 · Easy-Medium', text:'In a geometric sequence {aₙ}, if a₂ = 6 and a₄ = 54, then the common ratio q = ?',
+  choices:['±√2','±2','±3','±√3'], correct:2 },
+
+{ tier:'Level 2 · Easy-Medium', text:'Given {aₙ} is a geometric sequence with a₁ = 1 and a₂ = 2, then a₂₀₂₅ = ?',
+  choices:['2²⁰²⁵','2²⁰²⁴','2²⁰²³','2²⁰²⁶'], correct:1 },
+
+{ tier:'Level 2 · Easy-Medium', text:'In a geometric sequence {aₙ} with all positive terms, if a₁ · a₅ = 16, then a₃ = ?',
+  choices:['2','4','8','16'], correct:1 },
+
+// ── Level 3 · Medium ─────────────────────────────────────────────────────────
+
+{ tier:'Level 3 · Medium', text:'If a sequence {aₙ} is given by 1/2, −1/4, 1/8, …, then its general term is aₙ = ?',
+  choices:['(1/2)ⁿ','(−1)ⁿ⁻¹(1/2)ⁿ','(1/2)ⁿ⁻¹','(−1)ⁿ(1/2)ⁿ'], correct:1 },
+
+{ tier:'Level 3 · Medium', text:'If the sequence {aₙ} is 1/3, −1/9, 1/27, ⋯, then the general term aₙ = ?',
+  choices:['(1/3)ⁿ','(−1)ⁿ⁻¹(1/3)ⁿ','(−1)ⁿ(1/3)ⁿ','(−1)ⁿ⁻¹(1/3)ⁿ⁻¹'], correct:1 },
+
+{ tier:'Level 3 · Medium', text:'In a sequence {aₙ}, if aₙ = (−1)ⁿ · 2 · aₙ₋₁ for n ≥ 2, and a₁ = 1/3, then a₄ = ?',
+  choices:['−16/3','−8/3','16/3','8/3'], correct:1 },
+
+{ tier:'Level 3 · Medium', text:'The sum of the first 6 terms of the geometric sequence 1, 2, 4, 8, … is S₆ = ?',
+  choices:['32','63','64','62'], correct:1 },
+
+{ tier:'Level 3 · Medium', text:'If a geometric sequence has a₃ = 4 and a₆ = 32, then the common ratio q = ?',
+  choices:['2','√2','3','4'], correct:0 },
+
+{ tier:'Level 3 · Medium', text:'In a geometric sequence {aₙ}, if a₂ + a₄ = 20 and a₃ + a₅ = 40, then a₁ = ?',
+  choices:['5','10','4','2'], correct:3 },
+
+// ── Level 4 · Hard ───────────────────────────────────────────────────────────
+
+{ tier:'Level 4 · Hard', text:'Given a geometric sequence {aₙ} with a₁ = 3 and q = 2, the sum of the first n terms Sₙ = ?',
+  choices:['3·2ⁿ − 3','3·2ⁿ⁻¹ − 3','2ⁿ⁺¹ − 3','3·2ⁿ + 3'], correct:0 },
+
+{ tier:'Level 4 · Hard', text:'In a geometric sequence {aₙ}, a₁ = 2 and q = 1/2. Let bₙ = n · aₙ. Then the sum of the first n terms of {bₙ} is Sₙ = ?',
+  choices:['4 − (n+2)/2ⁿ⁻²','8 − (n+2)·2²⁻ⁿ','8 − (n+1)/2ⁿ⁻¹','4 − (n+1)·2¹⁻ⁿ'], correct:1 },
+
+{ tier:'Level 4 · Hard', text:'In a geometric sequence {aₙ} with a₁ = 1 and q = 2, let bₙ = 1/(aₙ · aₙ₊₁). Then Sₙ = b₁ + b₂ + ⋯ + bₙ = ?',
+  choices:['2/3 − 2/(3·4ⁿ)','1/3 − 1/(3·4ⁿ)','2/3 − 1/(3·2ⁿ)','1 − 1/4ⁿ'], correct:0 },
+
+{ tier:'Level 4 · Hard', text:'In a sequence {aₙ}, a₁ = 1 and aₙ₊₁ = aₙ/(2aₙ + 1). Let bₙ = 1/aₙ. Then Sₙ = b₁ + b₂ + ⋯ + bₙ = ?',
+  choices:['n(n+1)','n(n−1)/2','2n − 1','n²'], correct:3 },
+
+  ];
+
+  var TOTAL_TIME = 45 * 60;      // 30 minutes, in seconds
+  var MARKS_PER_QUESTION = 4;    // 25 questions × 4 marks = 100
+
+  var state = {
+    name:'', ticket:'', current:0,
+    answers:new Array(QUESTIONS.length).fill(null),
+    flags:new Array(QUESTIONS.length).fill(false),
+    timeLeft:TOTAL_TIME, timerId:null, submitted:false
+  };
+
+  /* ---------------- DOM references ---------------- */
+  var screens = document.querySelectorAll('.screen');
+  var nameInput = document.getElementById('input-name');
+  var ticketInput = document.getElementById('input-ticket');
+  var btnStart = document.getElementById('btn-start');
+
+  var timerTrack = document.getElementById('timer-track');
+  var timerFill = document.getElementById('timer-fill');
+  var timerDisplay = document.getElementById('timer-display');
+
+  var sidebarName = document.getElementById('sidebar-name');
+  var sidebarTicket = document.getElementById('sidebar-ticket');
+  var avatarInitial = document.getElementById('avatar-initial');
+
+  var qGrid = document.getElementById('q-grid');
+  var progressCount = document.getElementById('progress-count');
+  var btnSubmit = document.getElementById('btn-submit');
+
+  var btnPrev = document.getElementById('btn-prev');
+  var btnNext = document.getElementById('btn-next');
+  var questionCounter = document.getElementById('question-counter');
+  var questionTier = document.getElementById('question-tier');
+  var questionText = document.getElementById('question-text');
+  var choicesEl = document.getElementById('choices');
+  var btnFlag = document.getElementById('btn-flag');
+
+  var outroHeading = document.getElementById('outro-heading');
+  var scoreRing = document.getElementById('score-ring');
+  var scoreValue = document.getElementById('score-value');
+  var statCorrect = document.getElementById('stat-correct');
+  var statIncorrect = document.getElementById('stat-incorrect');
+  var statUnanswered = document.getElementById('stat-unanswered');
+  var btnReview = document.getElementById('btn-review');
+  var btnRestart = document.getElementById('btn-restart');
+  var reviewPanel = document.getElementById('review-panel');
+
+  var modalOverlay = document.getElementById('modal-overlay');
+  var modalTitle = document.getElementById('modal-title');
+  var modalMessage = document.getElementById('modal-message');
+  var modalCancel = document.getElementById('modal-cancel');
+  var modalConfirm = document.getElementById('modal-confirm');
+
+  /* ---------------- screen switching ---------------- */
+  function switchScreen(name){
+    screens.forEach(function(s){ s.classList.remove('is-active'); });
+    document.getElementById('screen-' + name).classList.add('is-active');
+  }
+
+  /* ---------------- modal helpers ---------------- */
+  function showModal(title, message, opts){
+    opts = opts || {};
+    modalTitle.textContent = title;
+    modalMessage.textContent = message;
+    modalCancel.style.display = (opts.showCancel === false) ? 'none' : 'inline-flex';
+    modalConfirm.textContent = opts.confirmText || 'Submit';
+    modalConfirm.onclick = function(){ hideModal(); if (opts.onConfirm) opts.onConfirm(); };
+    modalCancel.onclick = hideModal;
+    modalOverlay.classList.remove('hidden');
+  }
+  function hideModal(){ modalOverlay.classList.add('hidden'); }
+
+  /* ---------------- entry screen ---------------- */
+  function startExam(){
+    var name = nameInput.value.trim();
+    if (!name){
+      nameInput.classList.remove('shake'); void nameInput.offsetWidth;
+      nameInput.classList.add('shake');
+      nameInput.focus();
+      return;
+    }
+    state.name = name;
+    state.ticket = ticketInput.value.trim();
+    sidebarName.textContent = state.name;
+    sidebarTicket.textContent = state.ticket || '—';
+    avatarInitial.textContent = state.name.charAt(0).toUpperCase();
+
+    buildGrid();
+    switchScreen('exam');
+    renderQuestion(0);
+    startTimer();
+  }
+  btnStart.addEventListener('click', startExam);
+  [nameInput, ticketInput].forEach(function(el){
+    el.addEventListener('keydown', function(e){ if (e.key === 'Enter') startExam(); });
+  });
+
+  /* ---------------- timer ---------------- */
+  function pad(n){ return String(n).padStart(2,'0'); }
+
+  function renderTimer(){
+    var m = Math.floor(state.timeLeft / 60);
+    var s = state.timeLeft % 60;
+    timerDisplay.textContent = pad(m) + ':' + pad(s);
+
+    var pct = Math.max(0, (state.timeLeft / TOTAL_TIME) * 100);
+    timerFill.style.width = pct + '%';
+
+    var critical = state.timeLeft <= 60;
+    timerTrack.classList.toggle('critical', critical);
+    timerDisplay.classList.toggle('critical', critical);
+  }
+
+  function startTimer(){
+    renderTimer();
+    state.timerId = setInterval(function(){
+      state.timeLeft--;
+      if (state.timeLeft <= 0){
+        state.timeLeft = 0;
+        renderTimer();
+        clearInterval(state.timerId);
+        timeUp();
+        return;
+      }
+      renderTimer();
+    }, 1000);
+  }
+
+  function timeUp(){
+    choicesEl.style.pointerEvents = 'none';
+    btnPrev.disabled = true;
+    btnNext.disabled = true;
+    btnFlag.disabled = true;
+    btnSubmit.disabled = true;
+    showModal(
+      "Time's up",
+      'Your 45 minutes are up. Submit your exam to see your CSCA score.',
+      { showCancel:false, confirmText:'Submit & view score', onConfirm:finalizeSubmit }
+    );
+  }
+
+  /* ---------------- question grid ---------------- */
+  function buildGrid(){
+    qGrid.innerHTML = '';
+    QUESTIONS.forEach(function(q, i){
+      var cell = document.createElement('button');
+      cell.type = 'button';
+      cell.className = 'q-cell';
+      cell.textContent = i + 1;
+      cell.addEventListener('click', function(){ renderQuestion(i); });
+      qGrid.appendChild(cell);
+    });
+    updateGridStates();
+  }
+
+  function updateGridStates(){
+    var cells = qGrid.querySelectorAll('.q-cell');
+    cells.forEach(function(cell, i){
+      cell.classList.toggle('answered', state.answers[i] !== null);
+      cell.classList.toggle('marked', state.flags[i]);
+      cell.classList.toggle('current', i === state.current);
+    });
+    var answeredCount = state.answers.filter(function(a){ return a !== null; }).length;
+    progressCount.textContent = answeredCount + ' / ' + QUESTIONS.length;
+  }
+
+  /* ---------------- question rendering ---------------- */
+  function renderQuestion(i){
+    state.current = i;
+    var q = QUESTIONS[i];
+
+    questionCounter.textContent = 'Question ' + (i + 1) + ' of ' + QUESTIONS.length;
+    questionTier.textContent = q.tier;
+    questionText.textContent = q.text;
+
+    choicesEl.innerHTML = '';
+    q.choices.forEach(function(choiceText, idx){
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'choice' + (state.answers[i] === idx ? ' selected' : '');
+
+      var letter = document.createElement('span');
+      letter.className = 'choice-letter';
+      letter.textContent = String.fromCharCode(65 + idx);
+
+      var text = document.createElement('span');
+      text.className = 'choice-text';
+      text.textContent = choiceText;
+
+      btn.appendChild(letter);
+      btn.appendChild(text);
+      btn.addEventListener('click', function(){ selectChoice(i, idx); });
+      choicesEl.appendChild(btn);
+    });
+
+    btnFlag.classList.toggle('is-active', state.flags[i]);
+    btnFlag.innerHTML = state.flags[i] ? '&#9733; Flagged for review' : '&#9734; Flag this question for review';
+
+    btnPrev.disabled = (i === 0);
+    btnNext.textContent = (i === QUESTIONS.length - 1) ? 'Finish ›' : 'Next ›';
+
+    updateGridStates();
+  }
+
+  function selectChoice(qIndex, choiceIndex){
+    if (state.submitted) return;
+    state.answers[qIndex] = choiceIndex;
+    renderQuestion(qIndex);
+  }
+
+  btnPrev.addEventListener('click', function(){
+    if (state.current > 0) renderQuestion(state.current - 1);
+  });
+  btnNext.addEventListener('click', function(){
+    if (state.current < QUESTIONS.length - 1) renderQuestion(state.current + 1);
+    else openSubmitModal();
+  });
+  btnFlag.addEventListener('click', function(){
+    state.flags[state.current] = !state.flags[state.current];
+    renderQuestion(state.current);
+  });
+
+  /* ---------------- submit flow ---------------- */
+  function openSubmitModal(){
+    var unanswered = state.answers.filter(function(a){ return a === null; }).length;
+    var msg = unanswered > 0
+      ? 'You have ' + unanswered + ' unanswered question' + (unanswered > 1 ? 's' : '') + ' out of ' + QUESTIONS.length + '. Once submitted, you can\'t change your answers.'
+      : 'You\'ve answered all ' + QUESTIONS.length + ' questions. Once submitted, you can\'t change your answers.';
+    showModal('Submit exam?', msg, { showCancel:true, confirmText:'Submit exam', onConfirm:finalizeSubmit });
+  }
+  btnSubmit.addEventListener('click', openSubmitModal);
+
+  function finalizeSubmit(){
+    if (state.submitted) return;
+    state.submitted = true;
+    clearInterval(state.timerId);
+
+    var correct = 0, incorrect = 0, unanswered = 0;
+    QUESTIONS.forEach(function(q, i){
+      var given = state.answers[i];
+      if (given === null) unanswered++;
+      else if (given === q.correct) correct++;
+      else incorrect++;
+    });
+    var score = correct * MARKS_PER_QUESTION;
+
+    outroHeading.textContent = 'Nice work, ' + state.name + '.';
+    scoreValue.textContent = score;
+    statCorrect.textContent = correct;
+    statIncorrect.textContent = incorrect;
+    statUnanswered.textContent = unanswered;
+    scoreRing.style.setProperty('--pct', score);
+
+    buildReview();
+    switchScreen('outro');
+  }
+
+  function buildReview(){
+    reviewPanel.innerHTML = '';
+    QUESTIONS.forEach(function(q, i){
+      var given = state.answers[i];
+      var status = given === null ? 'review-unanswered' : (given === q.correct ? 'review-correct' : 'review-incorrect');
+
+      var row = document.createElement('div');
+      row.className = 'review-row ' + status;
+
+      var num = document.createElement('div');
+      num.className = 'review-num';
+      num.textContent = i + 1;
+
+      var body = document.createElement('div');
+      body.className = 'review-body';
+
+      var qText = document.createElement('div');
+      qText.className = 'review-q';
+      qText.textContent = q.text;
+
+      var answers = document.createElement('div');
+      answers.className = 'review-answers';
+
+      var yourAns = document.createElement('span');
+      yourAns.textContent = 'Your answer: ' + (given === null ? '— (unanswered)' : String.fromCharCode(65 + given) + '. ' + q.choices[given]);
+
+      var correctAns = document.createElement('span');
+      correctAns.textContent = 'Correct answer: ' + String.fromCharCode(65 + q.correct) + '. ' + q.choices[q.correct];
+
+      answers.appendChild(yourAns);
+      answers.appendChild(correctAns);
+      body.appendChild(qText);
+      body.appendChild(answers);
+      row.appendChild(num);
+      row.appendChild(body);
+      reviewPanel.appendChild(row);
+    });
+  }
+
+  btnReview.addEventListener('click', function(){
+    var open = reviewPanel.classList.toggle('open');
+    btnReview.textContent = open ? 'Hide review' : 'Review answers';
+  });
+
+  btnRestart.addEventListener('click', function(){ location.reload(); });
+
+});
+</script>
+</body>
+</html>
