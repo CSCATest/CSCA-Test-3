@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -453,7 +453,7 @@
   <div class="entry-card">
     <div class="entry-mark">CSCA</div>
     <h1>Mathematics Mock Exam</h1>
-    <p class="entry-sub">Sequences &amp; Series &mdash; 25 questions. Enter your details to begin.</p>
+    <p class="entry-sub">Analytical Geometry &mdash; 25 questions. Enter your details to begin.</p>
 
     <div class="field">
       <label for="input-name">Full name</label>
@@ -479,7 +479,7 @@
   <div class="timer-track" id="timer-track"><div class="timer-fill" id="timer-fill"></div></div>
 
   <header class="exam-header">
-    <div class="exam-title">CSCA Mathematics Mock Exam<small>Sequences &amp; Series</small></div>
+    <div class="exam-title">CSCA Mathematics Mock Exam<small>Analytical Geometry</small></div>
     <div class="timer-display" id="timer-display">45:00</div>
   </header>
 
@@ -575,113 +575,39 @@ document.addEventListener('DOMContentLoaded', function () {
 
   /* =========================================================
      QUESTION BANK — 25 items, ordered Easy -> Hard.
-     Each item's `correct` index (0-based) is the answer used
-     for grading. Geometric-sequence questions were excluded
-     from this set per the earlier extraction pass.
      ========================================================= */
   var QUESTIONS = [
-    // ─── GEOMETRIC SEQUENCES & SERIES ───────────────────────────────────────────
-// Format mirrors Arithmetic.txt
-// correct: index (0-based) of the correct choice
-
-// ── Level 1 · Warm-up ────────────────────────────────────────────────────────
-
-// ─── GEOMETRIC SEQUENCES & SERIES ───────────────────────────────────────────
-// Format mirrors Arithmetic.txt
-// correct: index (0-based) of the correct choice
-
-// ── Level 1 · Warm-up ────────────────────────────────────────────────────────
-
-// ─── GEOMETRIC SEQUENCES & SERIES ───────────────────────────────────────────
-// Format mirrors Arithmetic.txt
-// correct: index (0-based) of the correct choice
-
-// ── Level 1 · Warm-up ────────────────────────────────────────────────────────
-
-{ tier:'Level 1 · Warm-up', text:'What is the next term in the geometric sequence 3, 6, 12, 24, ...?',
-  choices:['36','48','42','54'], correct:1 },
-
-{ tier:'Level 1 · Warm-up', text:'What is the common ratio q of the geometric sequence 5, 10, 20, 40, ...?',
-  choices:['2','4','5','3'], correct:0 },
-
-{ tier:'Level 1 · Warm-up', text:'Let {aₙ} be a geometric sequence with a₁ = 3 and common ratio q = 2. Then a₅ = ?',
-  choices:['24','48','12','96'], correct:1 },
-
-{ tier:'Level 1 · Warm-up', text:'If a geometric sequence has a₁ = 1 and q = −2, then a₄ = ?',
-  choices:['8','−8','16','−16'], correct:1 },
-
-{ tier:'Level 1 · Warm-up', text:'If a₁ = 4 and a₄ = 32 in a geometric sequence {aₙ}, then a₃ = ?',
-  choices:['8','−8','16','−16'], correct:2 },
-
-{ tier:'Level 1 · Warm-up', text:'If the sequence {aₙ} is a geometric sequence, and a₁ = −48, a₄ = 6, then the common ratio q = ?',
-  choices:['−1/2','−2','1/2','2'], correct:0 },
-
-{ tier:'Level 1 · Warm-up', text:'In the geometric sequence 1, 2, 4, 8, …, the general term aₙ = ?',
-  choices:['2ⁿ','8','2ⁿ⁻¹','2ⁿ⁺¹'], correct:2 },
-
-{ tier:'Level 1 · Warm-up', text:'If a₁ = 6 and q = 1/3 in a geometric sequence, then a₄ = ?',
-  choices:['2/9','2/3','2/27','9/27'], correct:0 },
-
-// ── Level 2 · Easy-Medium ────────────────────────────────────────────────────
-
-{ tier:'Level 2 · Easy-Medium', text:'The geometric mean of 3 and 12 is?',
-  choices:['±6','±4','±10','±8'], correct:0 },
-
-{ tier:'Level 2 · Easy-Medium', text:'Among the four sequences below, how many are geometric sequences?\n(1) 1, 2, 4, 8   (2) 1, 1, 1, 1   (3) 2, 4, 7, 11   (4) −1, 1, −1, 1',
-  choices:['2','3','4','1'], correct:1 },
-
-{ tier:'Level 2 · Easy-Medium', text:'If the general term of a sequence {aₙ} is aₙ = 2ⁿ, which of the following statements is correct?',
-  choices:['{aₙ} is an arithmetic sequence','{aₙ} is neither arithmetic nor geometric','{aₙ} is both arithmetic and geometric','{aₙ} is a geometric sequence'], correct:3 },
-
-{ tier:'Level 2 · Easy-Medium', text:'Given that {aₙ} is a geometric sequence with a₁ = 2 and q = 3, then a₆ = ?',
-  choices:['486','162','243','729'], correct:0 },
-
-{ tier:'Level 2 · Easy-Medium', text:'In a geometric sequence {aₙ}, if a₂ = 6 and a₄ = 54, then the common ratio q = ?',
-  choices:['±√2','±2','±3','±√3'], correct:2 },
-
-{ tier:'Level 2 · Easy-Medium', text:'Given {aₙ} is a geometric sequence with a₁ = 1 and a₂ = 2, then a₂₀₂₅ = ?',
-  choices:['2²⁰²⁵','2²⁰²⁴','2²⁰²³','2²⁰²⁶'], correct:1 },
-
-{ tier:'Level 2 · Easy-Medium', text:'In a geometric sequence {aₙ} with all positive terms, if a₁ · a₅ = 16, then a₃ = ?',
-  choices:['2','4','8','16'], correct:1 },
-
-// ── Level 3 · Medium ─────────────────────────────────────────────────────────
-
-{ tier:'Level 3 · Medium', text:'If a sequence {aₙ} is given by 1/2, −1/4, 1/8, …, then its general term is aₙ = ?',
-  choices:['(1/2)ⁿ','(−1)ⁿ⁻¹(1/2)ⁿ','(1/2)ⁿ⁻¹','(−1)ⁿ(1/2)ⁿ'], correct:1 },
-
-{ tier:'Level 3 · Medium', text:'If the sequence {aₙ} is 1/3, −1/9, 1/27, ⋯, then the general term aₙ = ?',
-  choices:['(1/3)ⁿ','(−1)ⁿ⁻¹(1/3)ⁿ','(−1)ⁿ(1/3)ⁿ','(−1)ⁿ⁻¹(1/3)ⁿ⁻¹'], correct:1 },
-
-{ tier:'Level 3 · Medium', text:'In a sequence {aₙ}, if aₙ = (−1)ⁿ · 2 · aₙ₋₁ for n ≥ 2, and a₁ = 1/3, then a₄ = ?',
-  choices:['−16/3','−8/3','16/3','8/3'], correct:1 },
-
-{ tier:'Level 3 · Medium', text:'The sum of the first 6 terms of the geometric sequence 1, 2, 4, 8, … is S₆ = ?',
-  choices:['32','63','64','62'], correct:1 },
-
-{ tier:'Level 3 · Medium', text:'If a geometric sequence has a₃ = 4 and a₆ = 32, then the common ratio q = ?',
-  choices:['2','√2','3','4'], correct:0 },
-
-{ tier:'Level 3 · Medium', text:'In a geometric sequence {aₙ}, if a₂ + a₄ = 20 and a₃ + a₅ = 40, then a₁ = ?',
-  choices:['5','10','4','2'], correct:3 },
-
-// ── Level 4 · Hard ───────────────────────────────────────────────────────────
-
-{ tier:'Level 4 · Hard', text:'Given a geometric sequence {aₙ} with a₁ = 3 and q = 2, the sum of the first n terms Sₙ = ?',
-  choices:['3·2ⁿ − 3','3·2ⁿ⁻¹ − 3','2ⁿ⁺¹ − 3','3·2ⁿ + 3'], correct:0 },
-
-{ tier:'Level 4 · Hard', text:'In a geometric sequence {aₙ}, a₁ = 2 and q = 1/2. Let bₙ = n · aₙ. Then the sum of the first n terms of {bₙ} is Sₙ = ?',
-  choices:['4 − (n+2)/2ⁿ⁻²','8 − (n+2)·2²⁻ⁿ','8 − (n+1)/2ⁿ⁻¹','4 − (n+1)·2¹⁻ⁿ'], correct:1 },
-
-{ tier:'Level 4 · Hard', text:'In a geometric sequence {aₙ} with a₁ = 1 and q = 2, let bₙ = 1/(aₙ · aₙ₊₁). Then Sₙ = b₁ + b₂ + ⋯ + bₙ = ?',
-  choices:['2/3 − 2/(3·4ⁿ)','1/3 − 1/(3·4ⁿ)','2/3 − 1/(3·2ⁿ)','1 − 1/4ⁿ'], correct:0 },
-
-{ tier:'Level 4 · Hard', text:'In a sequence {aₙ}, a₁ = 1 and aₙ₊₁ = aₙ/(2aₙ + 1). Let bₙ = 1/aₙ. Then Sₙ = b₁ + b₂ + ⋯ + bₙ = ?',
-  choices:['n(n+1)','n(n−1)/2','2n − 1','n²'], correct:3 },
-
+    { tier: 'Level 1 · Warm-up', text: 'If a line passes through the points (-1, 1) and (0, 2), then the angle of inclination of the line is', choices: ['135°', '30°', '45°', '60°'], correct: 2 },
+    { tier: 'Level 1 · Warm-up', text: 'The slope of the line passing through points A(-1, 1) and B(2, 3) is', choices: ['2/3', '-2/3', '3/2', '-3/2'], correct: 2 },
+    { tier: 'Level 1 · Warm-up', text: 'The equation of the line passing through the origin with slope 2 is', choices: ['y = x + 2', 'y = x', 'y = 2x', 'y = 2x + 2'], correct: 2 },
+    { tier: 'Level 1 · Warm-up', text: 'Given line l1: y = x + 3 and line l2 passing through A(1, 0) and B(0, 1), the intersection point of l1 and l2 is', choices: ['(-3/2, 3/2)', '(-2, 1)', '(-1, 2)', '(0, 3)'], correct: 2 },
+    { tier: 'Level 1 · Warm-up', text: 'Which of the following statements about the three lines l1: x + 2y + 1 = 0, l2: x - y = 0, l3: 2x - y + 8 = 0 is correct?', choices: ['l1 is parallel to l3', 'l1 is perpendicular to l2', 'l1 is parallel to l2', 'l1 is perpendicular to l3'], correct: 3 },
+    { tier: 'Level 1 · Warm-up', text: 'The inclination angle of the line y = √3x + 10 is', choices: ['60°', '30°', '45°', '120°'], correct: 0 },
+    { tier: 'Level 1 · Warm-up', text: 'The intersection point of lines l1: y = 2x + 1 and l2: x + y + 1 = 0 is', choices: ['(1/3, 2/3)', '(2/3, 1/3)', '(-1/3, -2/3)', '(-2/3, -1/3)'], correct: 3 },
+    { tier: 'Level 1 · Warm-up', text: 'Which line is perpendicular to the line l: x + y + 3 = 0?', choices: ['y = -2x + 1', 'y = x + 3', 'y = 1 - x', 'y = 2x + 1'], correct: 1 },
+    
+    { tier: 'Level 2 · Easy-Medium', text: 'If a line is perpendicular to the line l1: x + 2y + 4 = 0 and passes through the intersection of the lines l2: x + y + 1 = 0 and l3: 2x + y - 1 = 0, then the equation of this line is', choices: ['x + 2y - 3 = 0', '2x + y - 5 = 0', '2x - y - 7 = 0', 'x - 2y - 1 = 0'], correct: 2 },
+    { tier: 'Level 2 · Easy-Medium', text: 'If the straight line l passes through the points A(-2, 3) and B(3, 1), then the slope of l is', choices: ['2/5', '5/2', '-2/5', '-5/2'], correct: 2 },
+    { tier: 'Level 2 · Easy-Medium', text: 'If a straight line l has an angle of inclination of 45°, and it passes through the point (0, 2), then the equation of l is', choices: ['y = 2x - 2', 'y = x + 2', 'y = 2x + 2', 'y = x - 2'], correct: 1 },
+    { tier: 'Level 2 · Easy-Medium', text: 'The intersection of the lines l1: 3x - y + 8 = 0 and l2: x + 2y - 9 = 0 has coordinates', choices: ['(-5, 1)', '(1, -5)', '(5, -1)', '(-1, 5)'], correct: 3 },
+    { tier: 'Level 2 · Easy-Medium', text: 'Given two straight lines l1: ax + (a - 1)y + 3 = 0 and l2: 2x + ay - 1 = 0. If l1 ⟂ l2, then the value of a is', choices: ['-1', '-1 or 1', '1', '0 or 1'], correct: 2 },
+    { tier: 'Level 2 · Easy-Medium', text: 'Suppose that a straight line l is perpendicular to another line l1: x + 2y + 4 = 0, and passes through the intersection of l2: x + y + 1 = 0 and l3: 2x + y - 1 = 0. The equation of l is', choices: ['2x - y - 7 = 0', '2x + y - 5 = 0', 'x - 2y - 1 = 0', 'x + 2y - 3 = 0'], correct: 0 },
+    { tier: 'Level 2 · Easy-Medium', text: 'The angle of inclination of the line x + √3y - 2 = 0 is', choices: ['60°', '150°', '120°', '30°'], correct: 1 },
+    
+    { tier: 'Level 3 · Medium', text: 'Suppose that a line l passes through two points M(0, -1) and N(-2, 0). Then the equation of l is', choices: ['x + y + 2 = 0', 'x + 2y + 2 = 0', '2x + y + 2 = 0', '2x + y + 1 = 0'], correct: 1 },
+    { tier: 'Level 3 · Medium', text: 'If three lines ax + 2y + 8 = 0, 4x + 3y = 10, and 2x - y = 10 intersect at one point, then a =', choices: ['1', '-3', '3', '-1'], correct: 1 },
+    { tier: 'Level 3 · Medium', text: 'The line that is parallel to 4x - 2y - 1 = 0 is', choices: ['x + 2y - 1 = 0', '2x + y - 1 = 0', 'x - 2y - 1 = 0', '2x - y - 1 = 0'], correct: 3 },
+    { tier: 'Level 3 · Medium', text: 'Suppose that a straight line l is perpendicular to another line l1: x + 2y + 4 = 0, and passes through the intersection of l2: x + y + 1 = 0 and l3: 2x + y - 1 = 0. The equation of l is', choices: ['2x - y - 7 = 0', 'x + 2y - 3 = 0', 'x - 2y - 1 = 0', '2x + y - 5 = 0'], correct: 0 },
+    { tier: 'Level 3 · Medium', text: 'The slope of the straight line passing through points A(-1, 1), B(2, 3) is', choices: ['-3/2', '-2/3', '3/2', '2/3'], correct: 0 },
+    
+    { tier: 'Level 4 · Hard', text: 'If the angle of inclination of a straight line l is 60°, then the slope of l is', choices: ['-√3', '√3/2', '1/2', '√3'], correct: 3 },
+    { tier: 'Level 4 · Hard', text: 'If a line l has a slope of -3, and it passes through the point (1, 2), then the equation of l is', choices: ['3x + y - 5 = 0', 'x + 3y - 7 = 0', '3x + y + 1 = 0', 'x + 3y + 5 = 0'], correct: 0 },
+    { tier: 'Level 4 · Hard', text: 'The coordinates of the intersection of the lines l1: 3x - y + 2 = 0 and l2: 4x - y + 3 = 0 are', choices: ['(1, -1)', '(-1, -1)', '(-1, 1)', '(1, 1)'], correct: 3 },
+    { tier: 'Level 4 · Hard', text: 'Which of the following straight lines is perpendicular to the line -2x + y - 2 = 0?', choices: ['2x + y - 2 = 0', 'x + 2y - 2 = 0', 'x + y - 2 = 0', '-x + 2y - 2 = 0'], correct: 1 },
+    { tier: 'Level 4 · Hard', text: 'What is the slope of a line that is parallel to the x-axis?', choices: ['Undefined', '0', '1', '-1'], correct: 1 }
   ];
 
-  var TOTAL_TIME = 45 * 60;      // 30 minutes, in seconds
+  var TOTAL_TIME = 45 * 60;      // 45 minutes, in seconds
   var MARKS_PER_QUESTION = 4;    // 25 questions × 4 marks = 100
 
   var state = {
