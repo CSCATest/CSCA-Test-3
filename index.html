@@ -577,34 +577,34 @@ document.addEventListener('DOMContentLoaded', function () {
      QUESTION BANK — 25 items, ordered Easy -> Hard.
      ========================================================= */
   var QUESTIONS = [
-    { tier: 'Level 1 · Warm-up', text: 'If a line passes through the points (-1, 1) and (0, 2), then the angle of inclination of the line is', choices: ['135°', '30°', '45°', '60°'], correct: 2 },
-    { tier: 'Level 1 · Warm-up', text: 'The slope of the line passing through points A(-1, 1) and B(2, 3) is', choices: ['2/3', '-2/3', '3/2', '-3/2'], correct: 2 },
-    { tier: 'Level 1 · Warm-up', text: 'The equation of the line passing through the origin with slope 2 is', choices: ['y = x + 2', 'y = x', 'y = 2x', 'y = 2x + 2'], correct: 2 },
-    { tier: 'Level 1 · Warm-up', text: 'Given line l1: y = x + 3 and line l2 passing through A(1, 0) and B(0, 1), the intersection point of l1 and l2 is', choices: ['(-3/2, 3/2)', '(-2, 1)', '(-1, 2)', '(0, 3)'], correct: 2 },
-    { tier: 'Level 1 · Warm-up', text: 'Which of the following statements about the three lines l1: x + 2y + 1 = 0, l2: x - y = 0, l3: 2x - y + 8 = 0 is correct?', choices: ['l1 is parallel to l3', 'l1 is perpendicular to l2', 'l1 is parallel to l2', 'l1 is perpendicular to l3'], correct: 3 },
-    { tier: 'Level 1 · Warm-up', text: 'The inclination angle of the line y = √3x + 10 is', choices: ['60°', '30°', '45°', '120°'], correct: 0 },
-    { tier: 'Level 1 · Warm-up', text: 'The intersection point of lines l1: y = 2x + 1 and l2: x + y + 1 = 0 is', choices: ['(1/3, 2/3)', '(2/3, 1/3)', '(-1/3, -2/3)', '(-2/3, -1/3)'], correct: 3 },
-    { tier: 'Level 1 · Warm-up', text: 'Which line is perpendicular to the line l: x + y + 3 = 0?', choices: ['y = -2x + 1', 'y = x + 3', 'y = 1 - x', 'y = 2x + 1'], correct: 1 },
-    
-    { tier: 'Level 2 · Easy-Medium', text: 'If a line is perpendicular to the line l1: x + 2y + 4 = 0 and passes through the intersection of the lines l2: x + y + 1 = 0 and l3: 2x + y - 1 = 0, then the equation of this line is', choices: ['x + 2y - 3 = 0', '2x + y - 5 = 0', '2x - y - 7 = 0', 'x - 2y - 1 = 0'], correct: 2 },
-    { tier: 'Level 2 · Easy-Medium', text: 'If the straight line l passes through the points A(-2, 3) and B(3, 1), then the slope of l is', choices: ['2/5', '5/2', '-2/5', '-5/2'], correct: 2 },
-    { tier: 'Level 2 · Easy-Medium', text: 'If a straight line l has an angle of inclination of 45°, and it passes through the point (0, 2), then the equation of l is', choices: ['y = 2x - 2', 'y = x + 2', 'y = 2x + 2', 'y = x - 2'], correct: 1 },
-    { tier: 'Level 2 · Easy-Medium', text: 'The intersection of the lines l1: 3x - y + 8 = 0 and l2: x + 2y - 9 = 0 has coordinates', choices: ['(-5, 1)', '(1, -5)', '(5, -1)', '(-1, 5)'], correct: 3 },
-    { tier: 'Level 2 · Easy-Medium', text: 'Given two straight lines l1: ax + (a - 1)y + 3 = 0 and l2: 2x + ay - 1 = 0. If l1 ⟂ l2, then the value of a is', choices: ['-1', '-1 or 1', '1', '0 or 1'], correct: 2 },
-    { tier: 'Level 2 · Easy-Medium', text: 'Suppose that a straight line l is perpendicular to another line l1: x + 2y + 4 = 0, and passes through the intersection of l2: x + y + 1 = 0 and l3: 2x + y - 1 = 0. The equation of l is', choices: ['2x - y - 7 = 0', '2x + y - 5 = 0', 'x - 2y - 1 = 0', 'x + 2y - 3 = 0'], correct: 0 },
-    { tier: 'Level 2 · Easy-Medium', text: 'The angle of inclination of the line x + √3y - 2 = 0 is', choices: ['60°', '150°', '120°', '30°'], correct: 1 },
-    
-    { tier: 'Level 3 · Medium', text: 'Suppose that a line l passes through two points M(0, -1) and N(-2, 0). Then the equation of l is', choices: ['x + y + 2 = 0', 'x + 2y + 2 = 0', '2x + y + 2 = 0', '2x + y + 1 = 0'], correct: 1 },
-    { tier: 'Level 3 · Medium', text: 'If three lines ax + 2y + 8 = 0, 4x + 3y = 10, and 2x - y = 10 intersect at one point, then a =', choices: ['1', '-3', '3', '-1'], correct: 1 },
-    { tier: 'Level 3 · Medium', text: 'The line that is parallel to 4x - 2y - 1 = 0 is', choices: ['x + 2y - 1 = 0', '2x + y - 1 = 0', 'x - 2y - 1 = 0', '2x - y - 1 = 0'], correct: 3 },
-    { tier: 'Level 3 · Medium', text: 'Suppose that a straight line l is perpendicular to another line l1: x + 2y + 4 = 0, and passes through the intersection of l2: x + y + 1 = 0 and l3: 2x + y - 1 = 0. The equation of l is', choices: ['2x - y - 7 = 0', 'x + 2y - 3 = 0', 'x - 2y - 1 = 0', '2x + y - 5 = 0'], correct: 0 },
-    { tier: 'Level 3 · Medium', text: 'The slope of the straight line passing through points A(-1, 1), B(2, 3) is', choices: ['-3/2', '-2/3', '3/2', '2/3'], correct: 0 },
-    
-    { tier: 'Level 4 · Hard', text: 'If the angle of inclination of a straight line l is 60°, then the slope of l is', choices: ['-√3', '√3/2', '1/2', '√3'], correct: 3 },
-    { tier: 'Level 4 · Hard', text: 'If a line l has a slope of -3, and it passes through the point (1, 2), then the equation of l is', choices: ['3x + y - 5 = 0', 'x + 3y - 7 = 0', '3x + y + 1 = 0', 'x + 3y + 5 = 0'], correct: 0 },
-    { tier: 'Level 4 · Hard', text: 'The coordinates of the intersection of the lines l1: 3x - y + 2 = 0 and l2: 4x - y + 3 = 0 are', choices: ['(1, -1)', '(-1, -1)', '(-1, 1)', '(1, 1)'], correct: 3 },
-    { tier: 'Level 4 · Hard', text: 'Which of the following straight lines is perpendicular to the line -2x + y - 2 = 0?', choices: ['2x + y - 2 = 0', 'x + 2y - 2 = 0', 'x + y - 2 = 0', '-x + 2y - 2 = 0'], correct: 1 },
-    { tier: 'Level 4 · Hard', text: 'What is the slope of a line that is parallel to the x-axis?', choices: ['Undefined', '0', '1', '-1'], correct: 1 }
+   { tier: 'Easy/Medium', text: 'If a line passes through the points (-1, 1) and (0, 2), then the angle of inclination of the line is', choices: ['135°', '30°', '45°', '60°'], correct: 2 },
+    { tier: 'Easy/Medium', text: 'The slope of the line passing through points A(-1, 1) and B(2, 3) is', choices: ['2/3', '-2/3', '3/2', '-3/2'], correct: 0 }, // FIXED: was 2, should be 0 (2/3)
+    { tier: 'Easy/Medium', text: 'The equation of the line passing through the origin with slope 2 is', choices: ['y = x + 2', 'y = x', 'y = 2x', 'y = 2x + 2'], correct: 2 },
+    { tier: 'Easy/Medium', text: 'Given line l1: y = x + 3 and line l2 passing through A(1, 0) and B(0, 1), the intersection point of l1 and l2 is', choices: ['(-3/2, 3/2)', '(-2, 1)', '(-1, 2)', '(0, 3)'], correct: 2 },
+    { tier: 'Easy/Medium', text: 'Which of the following statements about the three lines l1: x + 2y + 1 = 0, l2: x - y = 0, l3: 2x - y + 8 = 0 is correct?', choices: ['l1 is parallel to l3', 'l1 is perpendicular to l2', 'l1 is parallel to l2', 'l1 is perpendicular to l3'], correct: 3 },
+    { tier: 'Easy/Medium', text: 'The inclination angle of the line y = √3x + 10 is', choices: ['60°', '30°', '45°', '120°'], correct: 0 },
+    { tier: 'Easy/Medium', text: 'The intersection point of lines l1: y = 2x + 1 and l2: x + y + 1 = 0 is', choices: ['(1/3, 2/3)', '(2/3, 1/3)', '(-1/3, -2/3)', '(-2/3, -1/3)'], correct: 3 },
+    { tier: 'Easy/Medium', text: 'Which line is perpendicular to the line l: x + y + 3 = 0?', choices: ['y = -2x + 1', 'y = x + 3', 'y = 1 - x', 'y = 2x + 1'], correct: 1 },
+
+    { tier: 'Easy/Medium', text: 'If a line is perpendicular to the line l1: x + 2y + 4 = 0 and passes through the intersection of the lines l2: x + y + 1 = 0 and l3: 2x + y - 1 = 0, then the equation of this line is', choices: ['x + 2y - 3 = 0', '2x + y - 5 = 0', '2x - y - 7 = 0', 'x - 2y - 1 = 0'], correct: 2 },
+    { tier: 'Easy/Medium', text: 'If the straight line l passes through the points A(-2, 3) and B(3, 1), then the slope of l is', choices: ['2/5', '5/2', '-2/5', '-5/2'], correct: 2 },
+    { tier: 'Easy/Medium', text: 'If a straight line l has an angle of inclination of 45°, and it passes through the point (0, 2), then the equation of l is', choices: ['y = 2x - 2', 'y = x + 2', 'y = 2x + 2', 'y = x - 2'], correct: 1 },
+    { tier: 'Easy/Medium', text: 'The intersection of the lines l1: 3x - y + 8 = 0 and l2: x + 2y - 9 = 0 has coordinates', choices: ['(-5, 1)', '(1, -5)', '(5, -1)', '(-1, 5)'], correct: 3 },
+    { tier: 'Easy/Medium', text: 'Given two straight lines l1: ax + (a - 1)y + 3 = 0 and l2: 2x + ay - 1 = 0. If l1 ⟂ l2, then the value of a is', choices: ['-1', '-1 or 1', '1', '0 or -1'], correct: 3 }, // FIXED: solving a(a+1)=0 gives a=0 or a=-1; choice text corrected from "0 or 1" to "0 or -1", correct set to index 3
+    { tier: 'Easy/Medium', text: 'Suppose that a straight line l is perpendicular to another line l1: x + 2y + 4 = 0, and passes through the intersection of l2: x + y + 1 = 0 and l3: 2x + y - 1 = 0. The equation of l is', choices: ['2x - y - 7 = 0', '2x + y - 5 = 0', 'x - 2y - 1 = 0', 'x + 2y - 3 = 0'], correct: 0 },
+    { tier: 'Easy/Medium', text: 'The angle of inclination of the line x + √3y - 2 = 0 is', choices: ['60°', '150°', '120°', '30°'], correct: 1 },
+
+    { tier: 'Easy/Medium', text: 'Suppose that a line l passes through two points M(0, -1) and N(-2, 0). Then the equation of l is', choices: ['x + y + 2 = 0', 'x + 2y + 2 = 0', '2x + y + 2 = 0', '2x + y + 1 = 0'], correct: 1 },
+    { tier: 'Easy/Medium', text: 'If three lines ax + 2y + 8 = 0, 4x + 3y = 10, and 2x - y = 10 intersect at one point, then a =', choices: ['1', '-3', '3', '-1'], correct: 3 }, // FIXED: was 1 (-3), should be 3 (-1)
+    { tier: 'Easy/Medium', text: 'The line that is parallel to 4x - 2y - 1 = 0 is', choices: ['x + 2y - 1 = 0', '2x + y - 1 = 0', 'x - 2y - 1 = 0', '2x - y - 1 = 0'], correct: 3 },
+    { tier: 'Easy/Medium', text: 'Suppose that a straight line l is perpendicular to another line l1: x + 2y + 4 = 0, and passes through the intersection of l2: x + y + 1 = 0 and l3: 2x + y - 1 = 0. The equation of l is', choices: ['2x - y - 7 = 0', 'x + 2y - 3 = 0', 'x - 2y - 1 = 0', '2x + y - 5 = 0'], correct: 0 },
+    { tier: 'Easy/Medium', text: 'The slope of the straight line passing through points A(-1, 1), B(2, 3) is', choices: ['-3/2', '-2/3', '3/2', '2/3'], correct: 3 }, // FIXED: was 0 (-3/2), should be 3 (2/3)
+
+    { tier: 'Easy/Medium', text: 'If the angle of inclination of a straight line l is 60°, then the slope of l is', choices: ['-√3', '√3/2', '1/2', '√3'], correct: 3 },
+    { tier: 'Easy/Medium', text: 'If a line l has a slope of -3, and it passes through the point (1, 2), then the equation of l is', choices: ['3x + y - 5 = 0', 'x + 3y - 7 = 0', '3x + y + 1 = 0', 'x + 3y + 5 = 0'], correct: 0 },
+    { tier: 'Easy/Medium', text: 'The coordinates of the intersection of the lines l1: 3x - y + 2 = 0 and l2: 4x - y + 3 = 0 are', choices: ['(1, -1)', '(-1, -1)', '(-1, 1)', '(1, 1)'], correct: 1 }, // FIXED: was 3 (1,1), should be 1 (-1,-1)
+    { tier: 'Easy/Medium', text: 'Which of the following straight lines is perpendicular to the line -2x + y - 2 = 0?', choices: ['2x + y - 2 = 0', 'x + 2y - 2 = 0', 'x + y - 2 = 0', '-x + 2y - 2 = 0'], correct: 1 },
+    { tier: 'Easy/Medium', text: 'What is the slope of a line that is parallel to the x-axis?', choices: ['Undefined', '0', '1', '-1'], correct: 1 }
   ];
 
   var TOTAL_TIME = 45 * 60;      // 45 minutes, in seconds
